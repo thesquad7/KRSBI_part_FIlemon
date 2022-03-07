@@ -1,7 +1,8 @@
+from typing import Any
 import cv2
 import numpy as np
 
-sumber = cv2.VideoCapture(0)
+sumber = cv2.VideoCapture(2)
 
 while(True):
     _, tampil = sumber.read()
@@ -15,7 +16,7 @@ while(True):
     contours, hierarchy = cv2.findContours(warna_mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
     for pic, contour in enumerate(contours):
         area = cv2.contourArea(contour)
-        if(area > 100):
+        if(area > 2000):
             x, y, w, h = cv2.boundingRect(contour)
             tampil = cv2.rectangle(tampil, (x, y), 
                                        (x + w, y + h), 
@@ -24,6 +25,10 @@ while(True):
             cv2.putText(tampil, "Bola", (x, y),
                         cv2.FONT_HERSHEY_SIMPLEX, 1.0,
                         (0, 0, 255))
+            X = x
+            Y = y
+            text= str([X,Y])
+            cv2.putText(tampil,text,(0,12),cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,142,255))
     cv2.imshow('kamera', tampil)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
